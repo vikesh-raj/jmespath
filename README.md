@@ -5,7 +5,7 @@ which is a query language for JSON.  It will take a JSON
 document and transform it into another JSON document
 through a JMESPath expression.
 
-This project is derived from the go port of the JMESPATH,
+This project is derived from the go port of the JMESPath,
 [go-jmespath](https://github.com/jmespath/go-jmespath)
 
 Using go-jmespath is really easy.  There's a single function
@@ -100,12 +100,12 @@ example6 search avg(foo.bar) , got exception Invalid type for hello, expected [j
 The example above only show a small amount of what
 a JMESPath expression can do.  If you want to take a
 tour of the language, the *best* place to go is the
-[JMESPath Tutorial](http://jmespath.org/tutorial.html).
+[JMESPath Tutorial](https://jmespath.org/tutorial.html).
 
 One of the best things about JMESPath is that it is
 implemented in many different programming languages including
 python, ruby, php, lua, etc.  To see a complete list of libraries,
-check out the [JMESPath libraries page](http://jmespath.org/libraries.html).
+check out the [JMESPath libraries page](https://jmespath.org/libraries.html).
 
 And finally, the full JMESPath specification can be found
-on the [JMESPath site](http://jmespath.org/specification.html).
+on the [JMESPath site](https://jmespath.org/specification.html).
