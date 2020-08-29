@@ -69,12 +69,12 @@ List<TestSuite> loadTestCases(String base) {
 void runTestSuite(TestSuite ts) {
   var runMode = false;
   // runMode = true;
-  print('File : ${ts.file}');
+  // print('File : ${ts.file}');
   ts.cases.forEach((testcase) {
     if (runMode && testcase?.run != true) {
       return;
     }
-    print('expression : ${testcase.expression}');
+    // print('expression : ${testcase.expression}');
     if (testcase.error != null && testcase.error.isNotEmpty) {
       var exceptionType = isA<JmesException>();
       switch (testcase.error) {
@@ -106,7 +106,7 @@ void runTestSuite(TestSuite ts) {
 }
 
 void main() {
-  var tss = loadTestCases('.');
+  var tss = loadTestCases('..');
   test('compliance suite', () {
     tss.forEach(runTestSuite);
   });
