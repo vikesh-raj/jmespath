@@ -3,7 +3,7 @@ description: jmespath is a dart implementation of JMESPath,
   which is a query language for JSON.  It will take a JSON
   document and transform it into another JSON document
   through a JMESPath expression.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/vikesh-raj/jmespath
 
 environment:
