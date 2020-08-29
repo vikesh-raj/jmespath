@@ -1,5 +1,9 @@
 # Change Log for jmespath
 
+## [v1.0.2] Update package description
+
+* Make package description shorter
+
 ## [v1.0.1] Documentation changes
 
 * Add documentation to the error classes
