@@ -109,13 +109,4 @@ bool isNumber(o) => o is num;
 bool isString(o) => o is String;
 bool isArrayNum(List l) => l.every(isNumber);
 bool isArrayString(List l) => l.every(isString);
-
-String reverseString(String s) {
-  var length = s.length;
-  var charCodes = List<int>(length);
-  for (var index = 0; index < length; index++) {
-    charCodes[index] = s.codeUnitAt(length - index - 1);
-  }
-
-  return String.fromCharCodes(charCodes);
-}
+String reverseString(String s) => String.fromCharCodes(s.runes.toList().reversed);

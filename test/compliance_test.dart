@@ -106,7 +106,12 @@ void runTestSuite(TestSuite ts) {
 }
 
 void main() {
-  var tss = loadTestCases('..');
+  var tss = <TestSuite>[];
+  if (File('./compliance').existsSync()) {
+    tss = loadTestCases('.');
+  } else if (File('../compliance').existsSync()) {
+    tss = loadTestCases('..');
+  }
   test('compliance suite', () {
     tss.forEach(runTestSuite);
   });

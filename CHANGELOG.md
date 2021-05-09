@@ -1,5 +1,9 @@
 # Change Log for jmespath
 
+## [v1.0.3] Update dependencies
+
+* Update dependencies for equatable to v1.2.6
+
 ## [v1.0.2] Update package description
 
 * Make package description shorter
