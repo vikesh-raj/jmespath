@@ -109,4 +109,5 @@ bool isNumber(o) => o is num;
 bool isString(o) => o is String;
 bool isArrayNum(List l) => l.every(isNumber);
 bool isArrayString(List l) => l.every(isString);
-String reverseString(String s) => String.fromCharCodes(s.runes.toList().reversed);
+String reverseString(String s) =>
+    String.fromCharCodes(s.runes.toList().reversed);

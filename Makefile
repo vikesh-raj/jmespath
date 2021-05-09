@@ -1,4 +1,4 @@
-.PHONY: test get publish analyze
+.PHONY: test get publish analyze format
 
 test:
 	flutter pub run test test
@@ -11,3 +11,6 @@ publish:
 
 analyze:
 	flutter analyze
+
+format:
+	flutter format .

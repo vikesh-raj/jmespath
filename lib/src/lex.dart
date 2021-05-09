@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:charcode/ascii.dart';
-import 'package:equatable/equatable.dart';
 
 import 'errors.dart';
 
@@ -38,7 +37,7 @@ enum tt {
   tEOF,
 }
 
-class token extends Equatable {
+class token {
   final tt tokType;
   final String value;
   final int position;
@@ -47,9 +46,19 @@ class token extends Equatable {
   token(this.tokType, this.value, this.position) : length = value.length;
 
   @override
-  List<Object> get props => [tokType, value, position, length];
+  bool operator ==(o) =>
+      o is token &&
+      o.tokType == tokType &&
+      o.value == value &&
+      o.position == position &&
+      o.length == length;
+
   @override
-  bool get stringify => true;
+  int get hashCode =>
+      tokType.hashCode ^ value.hashCode ^ position.hashCode ^ length.hashCode;
+
+  @override
+  String toString() => '$tokType : $value, pos : $position, len $length';
 }
 
 List<token> tokenize(String expression) {

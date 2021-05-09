@@ -1,5 +1,11 @@
 # Change Log for jmespath
 
+## [v1.0.4] Fix pendantic issues
+
+* Remove usage of equatable package
+* Fix pedantic issues
+* Run format
+
 ## [v1.0.3] Update dependencies
 
 * Update dependencies for equatable to v1.2.6

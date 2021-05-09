@@ -59,7 +59,7 @@ class astNode {
         prettyPrint(sb, elem, childIndent);
       }
     }
-    sb.write('${spaces}}\n');
+    sb.write('$spaces}\n');
   }
 }
 

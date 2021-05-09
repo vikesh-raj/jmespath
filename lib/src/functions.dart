@@ -308,7 +308,7 @@ dynamic jpfMaxBy(List arguments) {
           bestItem = item;
         }
       } else {
-        throw JmesException('${result} is not number');
+        throw JmesException('$result is not number');
       }
     });
     return bestItem;
@@ -424,7 +424,7 @@ dynamic jpfType(List arguments) {
   } else if (arg is bool) {
     return 'boolean';
   }
-  throw JmesException('Unknown type : ${arg}');
+  throw JmesException('Unknown type : $arg');
 }
 
 dynamic jpfKeys(List arguments) {
@@ -432,7 +432,7 @@ dynamic jpfKeys(List arguments) {
   if (arg is Map) {
     return List.from(arg.keys);
   }
-  throw JmesException('Invalid argument to keys function : ${arg}');
+  throw JmesException('Invalid argument to keys function : $arg');
 }
 
 dynamic jpfValues(List arguments) {
@@ -440,7 +440,7 @@ dynamic jpfValues(List arguments) {
   if (arg is Map) {
     return List.from(arg.values);
   }
-  throw JmesException('Invalid argument to values function : ${arg}');
+  throw JmesException('Invalid argument to values function : $arg');
 }
 
 dynamic jpfSort(List arguments) {
@@ -542,7 +542,7 @@ dynamic jpfToNumber(List arguments) {
   } else if (arg is List || arg is Map || arg is bool || arg == null) {
     return null;
   }
-  throw JmesException('unknown type for ${arg}');
+  throw JmesException('unknown type for $arg');
 }
 
 dynamic jpfNotNull(List arguments) {
