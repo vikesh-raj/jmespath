@@ -8,6 +8,7 @@ void main() {
   example4();
   example5();
   example6();
+  example7();
 }
 
 void example1() {
@@ -67,6 +68,18 @@ void example6() {
   try {
     var result = search(search_string, data);
     print('example6 search $search_string , result = $result');
+  } on JmesException catch (e) {
+    print('example6 search $search_string , got exception ${e.message}');
+  }
+}
+
+void example7() {
+  var jsondata = r'{"foo": { "a": { "c": 2000, "d": 1000, "e": 99.3 }, "b": { "c": 300, "d": 400, "e": 97.1 }}}';
+  var data = json.decode(jsondata);
+  var search_string = 'objects(foo)';
+  try {
+    var result = search(search_string, data);//
+    print('example6 search $search_string , result = ${json.encode(result)}');
   } on JmesException catch (e) {
     print('example6 search $search_string , got exception ${e.message}');
   }
