@@ -125,6 +125,12 @@ functionCaller newFunctionCaller() {
           argSpec([jpType.jpObject])
         ],
         jpfValues),
+    'objects': functionEntry(
+        'objects',
+        [
+          argSpec([jpType.jpObject])
+        ],
+        jpfObjects),
     'sort': functionEntry(
         'sort',
         [
@@ -433,6 +439,24 @@ dynamic jpfKeys(List arguments) {
     return List.from(arg.keys);
   }
   throw JmesException('Invalid argument to keys function : $arg');
+}
+
+dynamic jpfObjects(List arguments) {
+  var arg = arguments[0];
+  if (arg is Map) {
+    var output = [];
+
+    arg.forEach((key, value) {
+      var new_object = {
+        'key': key,
+        'values': value,
+      };
+      output.add(new_object);
+    });
+    
+    return List.from(output);
+  }
+  throw JmesException('Invalid argument to objects function : $arg');
 }
 
 dynamic jpfValues(List arguments) {
