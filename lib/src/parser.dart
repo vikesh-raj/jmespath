@@ -34,7 +34,7 @@ class astNode {
   final dynamic value;
   final List<astNode> children;
 
-  astNode(this.type, this.value, [this.children]);
+  astNode(this.type, this.value, [this.children = const []]);
 
   @override
   String toString() {
@@ -100,8 +100,8 @@ astNode parse(String expression) {
 
 class _Parser {
   String expression;
-  List<token> tokens;
-  int index;
+  late List<token> tokens;
+  late int index;
 
   _Parser(this.expression) {
     index = 0;
@@ -122,7 +122,7 @@ class _Parser {
     advance();
     var leftastNode = nud(leftToken);
     var currentToken = current;
-    while (bindingPower < _bindingPowers[currentToken]) {
+    while (bindingPower < _bindingPowers[currentToken]!) {
       advance();
       leftastNode = led(currentToken, leftastNode);
       currentToken = current;
@@ -143,7 +143,7 @@ class _Parser {
   }
 
   astNode parseSliceExpression() {
-    var parts = <int>[null, null, null];
+    var parts = <int?>[null, null, null];
     var partIndex = 0;
     while (current != tt.tRbracket && partIndex < 3) {
       if (current == tt.tColon) {
@@ -183,20 +183,20 @@ class _Parser {
     switch (tokenType) {
       case tt.tDot:
         if (current != tt.tStar) {
-          var right = parseDotRHS(_bindingPowers[tt.tDot]);
+          var right = parseDotRHS(_bindingPowers[tt.tDot]!);
           return astNode(ast.Subexpression, null, [node, right]);
         }
         advance();
-        var right = parseProjectionRHS(_bindingPowers[tt.tDot]);
+        var right = parseProjectionRHS(_bindingPowers[tt.tDot]!);
         return astNode(ast.ValueProjection, null, [node, right]);
       case tt.tPipe:
-        var right = parseExpression(_bindingPowers[tt.tPipe]);
+        var right = parseExpression(_bindingPowers[tt.tPipe]!);
         return astNode(ast.Pipe, null, [node, right]);
       case tt.tOr:
-        var right = parseExpression(_bindingPowers[tt.tOr]);
+        var right = parseExpression(_bindingPowers[tt.tOr]!);
         return astNode(ast.OrExpression, null, [node, right]);
       case tt.tAnd:
-        var right = parseExpression(_bindingPowers[tt.tAnd]);
+        var right = parseExpression(_bindingPowers[tt.tAnd]!);
         return astNode(ast.AndExpression, null, [node, right]);
       case tt.tLparen:
         var name = node.value;
@@ -214,7 +214,7 @@ class _Parser {
         return parseFilter(node);
       case tt.tFlatten:
         var left = astNode(ast.Flatten, null, [node]);
-        var right = parseProjectionRHS(_bindingPowers[tt.tFlatten]);
+        var right = parseProjectionRHS(_bindingPowers[tt.tFlatten]!);
         return astNode(ast.Projection, null, [left, right]);
       case tt.tEQ:
       case tt.tNE:
@@ -222,7 +222,7 @@ class _Parser {
       case tt.tGTE:
       case tt.tLT:
       case tt.tLTE:
-        var right = parseExpression(_bindingPowers[tokenType]);
+        var right = parseExpression(_bindingPowers[tokenType]!);
         return astNode(ast.Comparator, tokenType, [node, right]);
       case tt.tLbracket:
         var tokenType = current;
@@ -233,7 +233,7 @@ class _Parser {
         // Otherwise this is a projection.
         match(tt.tStar);
         match(tt.tRbracket);
-        var right = parseProjectionRHS(_bindingPowers[tt.tStar]);
+        var right = parseProjectionRHS(_bindingPowers[tt.tStar]!);
         return astNode(ast.Projection, null, [node, right]);
       default:
         throw syntaxError('Unexpected token: $tokenType');
@@ -259,7 +259,7 @@ class _Parser {
         if (current == tt.tRbracket) {
           return astNode(ast.ValueProjection, null, [idastNode(), idastNode()]);
         }
-        var right = parseProjectionRHS(_bindingPowers[tt.tStar]);
+        var right = parseProjectionRHS(_bindingPowers[tt.tStar]!);
         return astNode(ast.ValueProjection, null, [idastNode(), right]);
       case tt.tFilter:
         return parseFilter(idastNode());
@@ -267,7 +267,7 @@ class _Parser {
         return parseMultiSelectHash();
       case tt.tFlatten:
         var left = astNode(ast.Flatten, null, [idastNode()]);
-        var right = parseProjectionRHS(_bindingPowers[tt.tFlatten]);
+        var right = parseProjectionRHS(_bindingPowers[tt.tFlatten]!);
         return astNode(ast.Projection, null, [left, right]);
       case tt.tLbracket:
         var tokenType = current;
@@ -278,17 +278,17 @@ class _Parser {
         } else if (tokenType == tt.tStar && lookahead(1) == tt.tRbracket) {
           advance();
           advance();
-          var right = parseProjectionRHS(_bindingPowers[tt.tStar]);
+          var right = parseProjectionRHS(_bindingPowers[tt.tStar]!);
           return astNode(ast.Projection, null, [idastNode(), right]);
         }
         return parseMultiSelectList();
       case tt.tCurrent:
         return astNode(ast.CurrentNode, null);
       case tt.tExpref:
-        var expression = parseExpression(_bindingPowers[tt.tExpref]);
+        var expression = parseExpression(_bindingPowers[tt.tExpref]!);
         return astNode(ast.ExpRef, null, [expression]);
       case tt.tNot:
-        var expression = parseExpression(_bindingPowers[tt.tNot]);
+        var expression = parseExpression(_bindingPowers[tt.tNot]!);
         return astNode(ast.NotExpression, null, [expression]);
       case tt.tLparen:
         var expression = parseExpression(0);
@@ -338,7 +338,7 @@ class _Parser {
   astNode projectIfSlice(astNode left, astNode right) {
     var indexExpr = astNode(ast.IndexExpression, null, [left, right]);
     if (right.type == ast.Slice) {
-      var right = parseProjectionRHS(_bindingPowers[tt.tStar]);
+      var right = parseProjectionRHS(_bindingPowers[tt.tStar]!);
       return astNode(ast.Projection, null, [indexExpr, right]);
     }
     return indexExpr;
@@ -349,7 +349,7 @@ class _Parser {
     var condition = parseExpression(0);
     match(tt.tRbracket);
     if (current != tt.tFlatten) {
-      right = parseProjectionRHS(_bindingPowers[tt.tFilter]);
+      right = parseProjectionRHS(_bindingPowers[tt.tFilter]!);
     }
     return astNode(ast.FilterProjection, null, [node, right, condition]);
   }
@@ -370,7 +370,7 @@ class _Parser {
   }
 
   astNode parseProjectionRHS(int bindingPower) {
-    if (_bindingPowers[current] < 10) {
+    if (_bindingPowers[current]! < 10) {
       return idastNode();
     } else if (current == tt.tLbracket) {
       return parseExpression(bindingPower);

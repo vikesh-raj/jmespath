@@ -6,26 +6,26 @@ import 'dart:io';
 import 'package:test/test.dart';
 
 class TestCase {
-  String comment;
-  String expression;
+  String? comment;
+  late String expression;
   dynamic result;
-  String error;
-  bool run;
+  String? error;
+  bool? run;
 
   TestCase.fromMap(Map<String, dynamic> o) {
-    comment = o['comment'] as String;
+    comment = o['comment'] as String?;
     expression = o['expression'] as String;
     result = o['result'];
-    error = o['error'] as String;
-    run = o['run'] as bool;
+    error = o['error'] as String?;
+    run = o['run'] as bool?;
   }
 }
 
 class TestSuite {
   dynamic given;
-  List<TestCase> cases;
-  String comment;
-  String file;
+  late List<TestCase> cases;
+  String? comment;
+  String? file;
 
   TestSuite.fromMap(Map<String, dynamic> o) {
     given = o['given'];
@@ -34,7 +34,7 @@ class TestSuite {
       var oo = j as Map<String, dynamic>;
       return TestCase.fromMap(oo);
     }));
-    comment = o['comment'] as String;
+    comment = o['comment'] as String?;
   }
 }
 
@@ -75,7 +75,7 @@ void runTestSuite(TestSuite ts) {
       return;
     }
     // print('expression : ${testcase.expression}');
-    if (testcase.error != null && testcase.error.isNotEmpty) {
+    if (testcase.error != null && testcase.error!.isNotEmpty) {
       var exceptionType = isA<JmesException>();
       switch (testcase.error) {
         case 'syntax':

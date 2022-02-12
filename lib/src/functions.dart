@@ -468,7 +468,7 @@ dynamic jpfSortBy(List arguments) {
   var array = List.from(arr);
   var start = intr.execute(node, arr[0]);
   if (start is num) {
-    mergeSort(array, compare: (itemi, itemj) {
+    mergeSort(array, compare: (dynamic itemi, dynamic itemj) {
       var first = intr.execute(node, itemi);
       var second = intr.execute(node, itemj);
       if (first is num && second is num) {
@@ -481,7 +481,7 @@ dynamic jpfSortBy(List arguments) {
   }
 
   if (start is String) {
-    mergeSort(array, compare: (itemi, itemj) {
+    mergeSort(array, compare: (dynamic itemi, dynamic itemj) {
       var first = intr.execute(node, itemi);
       var second = intr.execute(node, itemj);
       if (first is String && second is String) {

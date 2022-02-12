@@ -99,7 +99,7 @@ bool _isAlphaNum(int ch) {
 
 class _Lexer {
   String expression;
-  RuneIterator iterator;
+  late RuneIterator iterator;
   int get length => expression.length;
   int get position => iterator.rawIndex;
   int get current => iterator.current;
@@ -117,7 +117,7 @@ class _Lexer {
       if (_isAlpha(ch)) {
         tokens.add(consumeUnquotedIdentifier());
       } else if (_basicTokens.containsKey(ch)) {
-        tokens.add(token(_basicTokens[ch], String.fromCharCode(ch), position));
+        tokens.add(token(_basicTokens[ch]!, String.fromCharCode(ch), position));
       } else if (_isNum(ch)) {
         tokens.add(consumeNumber());
       } else if (ch == $lbracket) {
