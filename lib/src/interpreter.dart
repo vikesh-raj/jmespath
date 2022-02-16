@@ -13,7 +13,7 @@ class treeInterpreter {
     if (!fCall.functionTable.containsKey(name)) {
       throw UnknownFunctionException('Unknown function : $name');
     }
-    var entry = fCall.functionTable[name];
+    var entry = fCall.functionTable[name]!;
     var resolvedArgs = entry.resolveArgs(arguments);
     if (entry.hasExpRef) {
       resolvedArgs.insert(0, this);
@@ -126,7 +126,7 @@ class treeInterpreter {
         for (var child in node.children) {
           var current = execute(child, value);
           if (child.value is String) {
-            String key = child.value;
+            String key = child.value!;
             collected[key] = current;
           }
         }
