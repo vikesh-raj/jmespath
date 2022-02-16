@@ -2,9 +2,7 @@ import 'package:jmespath/src/api.dart';
 import 'package:test/test.dart';
 import 'dart:convert';
 
-
 void main() {
-
   test('basic test', () {
     var jsondata = r'{"foo": {"bar": {"baz": [0, 1, 2, 3, 4]}}}';
     var data = json.decode(jsondata);

@@ -1,5 +1,9 @@
 # Change Log for jmespath
 
+## [v2.0.1] Format
+
+* Fix formatting
+
 ## [v2.0.0] Add Null safety
 
 * Add null safety (by @andyduke)

@@ -11,12 +11,13 @@ class TestCase {
 void main() {
   var tests = [
     TestCase('foo', 'ast.field { value:foo }'),
-
-    TestCase('foo.bar', 'ast.subexpression {'
-              '  children : {'
-              '    ast.field { value:foo }'
-              '    ast.field { value:bar }'
-              '}'),
+    TestCase(
+        'foo.bar',
+        'ast.subexpression {'
+            '  children : {'
+            '    ast.field { value:foo }'
+            '    ast.field { value:bar }'
+            '}'),
   ];
   test('parser tests', () {
     for (var it in tests) {

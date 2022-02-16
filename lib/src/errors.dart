@@ -13,7 +13,8 @@ class JmesException implements Exception {
 class SyntaxException extends JmesException {
   final String expression;
   final int offset;
-  SyntaxException({required String message, required this.expression, required this.offset})
+  SyntaxException(
+      {required String message, required this.expression, required this.offset})
       : super(message);
   @override
   String toString() =>
