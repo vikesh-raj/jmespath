@@ -4,10 +4,10 @@ import 'lex.dart';
 import 'util.dart';
 import 'errors.dart';
 
-class treeInterpreter {
-  functionCaller fCall;
+class TreeInterpreter {
+  FunctionCaller fCall;
 
-  treeInterpreter(this.fCall);
+  TreeInterpreter(this.fCall);
 
   dynamic callFunction(String name, List arguments) {
     if (!fCall.functionTable.containsKey(name)) {
@@ -21,9 +21,9 @@ class treeInterpreter {
     return entry.handler(resolvedArgs);
   }
 
-  dynamic execute(astNode node, dynamic value) {
+  dynamic execute(AstNode node, dynamic value) {
     switch (node.type) {
-      case ast.Comparator:
+      case ast.comparator:
         var left = execute(node.children[0], value);
         var right = execute(node.children[1], value);
         switch (node.value) {
@@ -45,9 +45,9 @@ class treeInterpreter {
           }
         }
         return null;
-      case ast.ExpRef:
-        return expRef(node.children[0]);
-      case ast.FunctionExpression:
+      case ast.expRef:
+        return ExpRef(node.children[0]);
+      case ast.functionExpression:
         var resolvedArgs = <dynamic>[];
         for (var arg in node.children) {
           var current = execute(arg, value);
@@ -59,7 +59,7 @@ class treeInterpreter {
         }
         throw JmesException(
             'Unkown funtion type ${function.runtimeType}, $function');
-      case ast.Field:
+      case ast.field:
         if (node.value is String) {
           if (value is Map<String, dynamic>) {
             return value[node.value];
@@ -67,7 +67,7 @@ class treeInterpreter {
           return null;
         }
         throw JmesException('Expecting string ${node.value}');
-      case ast.FilterProjection:
+      case ast.filterProjection:
         var left = execute(node.children[0], value);
         if (left is List) {
           var collected = <dynamic>[];
@@ -84,7 +84,7 @@ class treeInterpreter {
           return collected;
         }
         return null;
-      case ast.Flatten:
+      case ast.flatten:
         var left = execute(node.children[0], value);
         if (left is List) {
           var flattened = <dynamic>[];
@@ -98,10 +98,10 @@ class treeInterpreter {
           return flattened;
         }
         return null;
-      case ast.Identity:
-      case ast.CurrentNode:
+      case ast.identity:
+      case ast.currentNode:
         return value;
-      case ast.Index:
+      case ast.indexValue:
         if (value is List) {
           if (node.value is int) {
             int index = node.value;
@@ -114,11 +114,11 @@ class treeInterpreter {
           }
         }
         return null;
-      case ast.KeyValPair:
+      case ast.keyValPair:
         return execute(node.children[0], value);
-      case ast.Literal:
+      case ast.literal:
         return node.value;
-      case ast.MultiSelectHash:
+      case ast.multiSelectHash:
         if (value == null) {
           return null;
         }
@@ -131,7 +131,7 @@ class treeInterpreter {
           }
         }
         return collected;
-      case ast.MultiSelectList:
+      case ast.multiSelectList:
         if (value == null) {
           return null;
         }
@@ -141,28 +141,28 @@ class treeInterpreter {
           collected.add(current);
         }
         return collected;
-      case ast.OrExpression:
+      case ast.orExpression:
         var matched = execute(node.children[0], value);
         if (isValueFalse(matched)) {
           matched = execute(node.children[1], value);
         }
         return matched;
-      case ast.AndExpression:
+      case ast.andExpression:
         var matched = execute(node.children[0], value);
         if (isValueFalse(matched)) {
           return matched;
         }
         return execute(node.children[1], value);
-      case ast.NotExpression:
+      case ast.notExpression:
         var matched = execute(node.children[0], value);
         return isValueFalse(matched);
-      case ast.Pipe:
+      case ast.pipe:
         var result = value;
         for (var child in node.children) {
           result = execute(child, result);
         }
         return result;
-      case ast.Projection:
+      case ast.projection:
         var left = execute(node.children[0], value);
         if (left is List) {
           var collected = <dynamic>[];
@@ -175,19 +175,19 @@ class treeInterpreter {
           return collected;
         }
         return null;
-      case ast.Subexpression:
-      case ast.IndexExpression:
+      case ast.subexpression:
+      case ast.indexExpression:
         var left = execute(node.children[0], value);
         return execute(node.children[1], left);
-      case ast.Slice:
+      case ast.slice:
         if (value is List) {
-          if (node.value is List<int>) {
-            List<int> parts = node.value;
+          if (node.value is List<int?>) {
+            List<int?> parts = node.value;
             return slice(value, parts);
           }
         }
         return null;
-      case ast.ValueProjection:
+      case ast.valueProjection:
         var left = execute(node.children[0], value);
         if (left is Map<String, dynamic>) {
           var values = left.values;

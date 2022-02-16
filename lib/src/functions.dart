@@ -6,178 +6,178 @@ import 'function.dart';
 import 'util.dart';
 import 'errors.dart';
 
-functionCaller newFunctionCaller() {
-  var functionTable = <String, functionEntry>{
-    'length': functionEntry(
+FunctionCaller newFunctionCaller() {
+  var functionTable = <String, FunctionEntry>{
+    'length': FunctionEntry(
         'length',
         [
-          argSpec([jpType.jpString, jpType.jpArray, jpType.jpObject])
+          ArgSpec([JpType.jpString, JpType.jpArray, JpType.jpObject])
         ],
         jpfLength),
-    'starts_with': functionEntry(
+    'starts_with': FunctionEntry(
         'starts_with',
         [
-          argSpec([jpType.jpString]),
-          argSpec([jpType.jpString])
+          ArgSpec([JpType.jpString]),
+          ArgSpec([JpType.jpString])
         ],
         jpfStartsWith),
-    'abs': functionEntry(
+    'abs': FunctionEntry(
         'abs',
         [
-          argSpec([jpType.jpNumber])
+          ArgSpec([JpType.jpNumber])
         ],
         jpfAbs),
-    'avg': functionEntry(
+    'avg': FunctionEntry(
         'avg',
         [
-          argSpec([jpType.jpArrayNumber])
+          ArgSpec([JpType.jpArrayNumber])
         ],
         jpfAvg),
-    'ceil': functionEntry(
+    'ceil': FunctionEntry(
         'ceil',
         [
-          argSpec([jpType.jpNumber])
+          ArgSpec([JpType.jpNumber])
         ],
         jpfCeil),
-    'contains': functionEntry(
+    'contains': FunctionEntry(
         'contains',
         [
-          argSpec([jpType.jpArray, jpType.jpString]),
-          argSpec([jpType.jpAny])
+          ArgSpec([JpType.jpArray, JpType.jpString]),
+          ArgSpec([JpType.jpAny])
         ],
         jpfContains),
-    'ends_with': functionEntry(
+    'ends_with': FunctionEntry(
         'ends_with',
         [
-          argSpec([jpType.jpString]),
-          argSpec([jpType.jpString])
+          ArgSpec([JpType.jpString]),
+          ArgSpec([JpType.jpString])
         ],
         jpfEndsWith),
-    'floor': functionEntry(
+    'floor': FunctionEntry(
         'floor',
         [
-          argSpec([jpType.jpNumber])
+          ArgSpec([JpType.jpNumber])
         ],
         jpfFloor),
-    'map': functionEntry(
+    'map': FunctionEntry(
         'map',
         [
-          argSpec([jpType.jpExpref]),
-          argSpec([jpType.jpArray])
+          ArgSpec([JpType.jpExpref]),
+          ArgSpec([JpType.jpArray])
         ],
         jpfMap,
         hasExpRef: true),
-    'max': functionEntry(
+    'max': FunctionEntry(
         'max',
         [
-          argSpec([jpType.jpArrayNumber, jpType.jpArrayString])
+          ArgSpec([JpType.jpArrayNumber, JpType.jpArrayString])
         ],
         jpfMax),
-    'merge': functionEntry(
+    'merge': FunctionEntry(
         'merge',
         [
-          argSpec([jpType.jpObject], variadic: true)
+          ArgSpec([JpType.jpObject], variadic: true)
         ],
         jpfMerge),
-    'max_by': functionEntry(
+    'max_by': FunctionEntry(
         'max_by',
         [
-          argSpec([jpType.jpArray]),
-          argSpec([jpType.jpExpref])
+          ArgSpec([JpType.jpArray]),
+          ArgSpec([JpType.jpExpref])
         ],
         jpfMaxBy,
         hasExpRef: true),
-    'sum': functionEntry(
+    'sum': FunctionEntry(
         'sum',
         [
-          argSpec([jpType.jpArrayNumber])
+          ArgSpec([JpType.jpArrayNumber])
         ],
         jpfSum),
-    'min': functionEntry(
+    'min': FunctionEntry(
         'min',
         [
-          argSpec([jpType.jpArrayNumber, jpType.jpArrayString])
+          ArgSpec([JpType.jpArrayNumber, JpType.jpArrayString])
         ],
         jpfMin),
-    'min_by': functionEntry(
+    'min_by': FunctionEntry(
         'min_by',
         [
-          argSpec([jpType.jpArray]),
-          argSpec([jpType.jpExpref])
+          ArgSpec([JpType.jpArray]),
+          ArgSpec([JpType.jpExpref])
         ],
         jpfMinBy,
         hasExpRef: true),
-    'type': functionEntry(
+    'type': FunctionEntry(
         'type',
         [
-          argSpec([jpType.jpAny])
+          ArgSpec([JpType.jpAny])
         ],
         jpfType),
-    'keys': functionEntry(
+    'keys': FunctionEntry(
         'keys',
         [
-          argSpec([jpType.jpObject])
+          ArgSpec([JpType.jpObject])
         ],
         jpfKeys),
-    'values': functionEntry(
+    'values': FunctionEntry(
         'values',
         [
-          argSpec([jpType.jpObject])
+          ArgSpec([JpType.jpObject])
         ],
         jpfValues),
-    'sort': functionEntry(
+    'sort': FunctionEntry(
         'sort',
         [
-          argSpec([jpType.jpArrayNumber, jpType.jpArrayString])
+          ArgSpec([JpType.jpArrayNumber, JpType.jpArrayString])
         ],
         jpfSort),
-    'sort_by': functionEntry(
+    'sort_by': FunctionEntry(
         'sort_by',
         [
-          argSpec([jpType.jpArray]),
-          argSpec([jpType.jpExpref])
+          ArgSpec([JpType.jpArray]),
+          ArgSpec([JpType.jpExpref])
         ],
         jpfSortBy,
         hasExpRef: true),
-    'join': functionEntry(
+    'join': FunctionEntry(
         'join',
         [
-          argSpec([jpType.jpString]),
-          argSpec([jpType.jpArrayString])
+          ArgSpec([JpType.jpString]),
+          ArgSpec([JpType.jpArrayString])
         ],
         jpfJoin),
-    'reverse': functionEntry(
+    'reverse': FunctionEntry(
         'reverse',
         [
-          argSpec([jpType.jpArray, jpType.jpString])
+          ArgSpec([JpType.jpArray, JpType.jpString])
         ],
         jpfReverse),
-    'to_array': functionEntry(
+    'to_array': FunctionEntry(
         'to_array',
         [
-          argSpec([jpType.jpAny])
+          ArgSpec([JpType.jpAny])
         ],
         jpfToArray),
-    'to_string': functionEntry(
+    'to_string': FunctionEntry(
         'to_string',
         [
-          argSpec([jpType.jpAny])
+          ArgSpec([JpType.jpAny])
         ],
         jpfToString),
-    'to_number': functionEntry(
+    'to_number': FunctionEntry(
         'to_number',
         [
-          argSpec([jpType.jpAny])
+          ArgSpec([JpType.jpAny])
         ],
         jpfToNumber),
-    'not_null': functionEntry(
+    'not_null': FunctionEntry(
         'not_null',
         [
-          argSpec([jpType.jpAny], variadic: true)
+          ArgSpec([JpType.jpAny], variadic: true)
         ],
         jpfNotNull)
   };
-  return functionCaller(functionTable);
+  return FunctionCaller(functionTable);
 }
 
 dynamic jpfLength(List arguments) {
@@ -208,7 +208,9 @@ dynamic jpfAvg(List arguments) {
   if (arg is List) {
     var length = arg.length;
     var numerator = 0.0;
-    arg.forEach((a) => numerator += a);
+    for (var a in arg) {
+      numerator += a;
+    }
     return numerator / length;
   }
   throw JmesException('Argument is not a array {arg}');
@@ -246,8 +248,8 @@ dynamic jpfFloor(List arguments) {
 }
 
 dynamic jpfMap(List arguments) {
-  var intr = arguments[0] as treeInterpreter;
-  var exp = arguments[1] as expRef;
+  var intr = arguments[0] as TreeInterpreter;
+  var exp = arguments[1] as ExpRef;
   var node = exp.ref;
   var arr = arguments[2] as List;
   return List.from(arr.map((value) => intr.execute(node, value)));
@@ -263,16 +265,16 @@ dynamic jpfMax(List arguments) {
   }
   if (isArrayNum(l)) {
     var best = l[0];
-    l.forEach((e) {
+    for (var e in l) {
       if (e > best) best = e;
-    });
+    }
     return best;
   }
   if (isArrayString(l)) {
     var best = l[0] as String;
-    l.forEach((e) {
+    for (var e in l) {
       if (best.compareTo(e) < 0) best = e as String;
-    });
+    }
     return best;
   }
   return null;
@@ -280,18 +282,18 @@ dynamic jpfMax(List arguments) {
 
 dynamic jpfMerge(List arguments) {
   var output = <String, dynamic>{};
-  arguments.forEach((arg) {
+  for (var arg in arguments) {
     if (arg is Map) {
       arg.forEach((key, value) => output[key] = value);
     }
-  });
+  }
   return output;
 }
 
 dynamic jpfMaxBy(List arguments) {
-  var intr = arguments[0] as treeInterpreter;
+  var intr = arguments[0] as TreeInterpreter;
   var arr = arguments[1] as List;
-  var exp = arguments[2] as expRef;
+  var exp = arguments[2] as ExpRef;
   var node = exp.ref;
 
   if (arr.isEmpty) return null;
@@ -300,7 +302,7 @@ dynamic jpfMaxBy(List arguments) {
   if (start is num) {
     var bestVal = start;
     var bestItem = arr[0];
-    arr.sublist(1).forEach((item) {
+    for (var item in arr.sublist(1)) {
       var result = intr.execute(node, item);
       if (result is num) {
         if (result > bestVal) {
@@ -310,12 +312,12 @@ dynamic jpfMaxBy(List arguments) {
       } else {
         throw JmesException('$result is not number');
       }
-    });
+    }
     return bestItem;
   } else if (start is String) {
     var bestVal = start;
     var bestItem = arr[0];
-    arr.sublist(1).forEach((item) {
+    for (var item in arr.sublist(1)) {
       var result = intr.execute(node, item);
       if (result is String) {
         if (result.compareTo(bestVal) > 0) {
@@ -325,7 +327,7 @@ dynamic jpfMaxBy(List arguments) {
       } else {
         throw InvalidTypeException('$result is not string');
       }
-    });
+    }
     return bestItem;
   }
   throw InvalidTypeException('invalid type : $start should be float or string');
@@ -335,7 +337,9 @@ dynamic jpfSum(List arguments) {
   var l = arguments[0];
   if (l is List && isArrayNum(l)) {
     var sum = 0.0;
-    l.forEach((e) => sum += e);
+    for (var e in l) {
+      sum += e;
+    }
     return sum;
   }
   return 0.0;
@@ -351,25 +355,25 @@ dynamic jpfMin(List arguments) {
   }
   if (isArrayNum(l)) {
     var best = l[0];
-    l.forEach((e) {
+    for (var e in l) {
       if (best.compareTo(e) > 0) best = e;
-    });
+    }
     return best;
   }
   if (isArrayString(l)) {
     var best = l[0] as String;
-    l.forEach((e) {
+    for (var e in l) {
       if (best.compareTo(e) > 0) best = e as String;
-    });
+    }
     return best;
   }
   return null;
 }
 
 dynamic jpfMinBy(List arguments) {
-  var intr = arguments[0] as treeInterpreter;
+  var intr = arguments[0] as TreeInterpreter;
   var arr = arguments[1] as List;
-  var exp = arguments[2] as expRef;
+  var exp = arguments[2] as ExpRef;
   var node = exp.ref;
 
   if (arr.isEmpty) return null;
@@ -459,9 +463,9 @@ dynamic jpfSort(List arguments) {
 }
 
 dynamic jpfSortBy(List arguments) {
-  var intr = arguments[0] as treeInterpreter;
+  var intr = arguments[0] as TreeInterpreter;
   var arr = arguments[1] as List;
-  var exp = arguments[2] as expRef;
+  var exp = arguments[2] as ExpRef;
   var node = exp.ref;
   if (arr.isEmpty) return arr;
   if (arr.length == 1) return arr;

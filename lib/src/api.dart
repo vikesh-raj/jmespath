@@ -7,8 +7,8 @@ import 'functions.dart';
 /// Jmespath holds the compiled expression.
 /// Use the `search` function for searching the expression in the given data.
 class Jmespath {
-  late astNode _ast;
-  late treeInterpreter _intr;
+  late AstNode _ast;
+  late TreeInterpreter _intr;
 
   Jmespath.compile(String expression) {
     _ast = parse(expression);
@@ -28,4 +28,4 @@ dynamic search(String expression, dynamic data) {
   return intr.execute(ast, data);
 }
 
-treeInterpreter _newInterpreter() => treeInterpreter(newFunctionCaller());
+TreeInterpreter _newInterpreter() => TreeInterpreter(newFunctionCaller());

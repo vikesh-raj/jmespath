@@ -16,19 +16,19 @@ bool isValueFalse(o) {
   return false;
 }
 
-List slice(List slice, List<int> parts) {
+List slice(List slice, List<int?> parts) {
   var computed = computeSliceParams(slice.length, parts);
   return slice3(slice, computed[0], computed[1], computed[2]);
 }
 
-List<int> computeSliceParams(int length, List<int> parts) {
+List<int> computeSliceParams(int length, List<int?> parts) {
   var start = 0, stop = 0, step = 0;
   if (parts[2] == null) {
     step = 1;
   } else if (parts[2] == 0) {
     throw InvalidValueException('Invalid slice, step cannot be 0');
   } else {
-    step = parts[2];
+    step = parts[2]!;
   }
 
   var stepValueNegative = false;
@@ -43,7 +43,7 @@ List<int> computeSliceParams(int length, List<int> parts) {
       start = 0;
     }
   } else {
-    start = capSlice(length, parts[0], step);
+    start = capSlice(length, parts[0]!, step);
   }
 
   if (parts[1] == null) {
@@ -53,7 +53,7 @@ List<int> computeSliceParams(int length, List<int> parts) {
       stop = length;
     }
   } else {
-    stop = capSlice(length, parts[1], step);
+    stop = capSlice(length, parts[1]!, step);
   }
   return [start, stop, step];
 }

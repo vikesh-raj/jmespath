@@ -10,20 +10,20 @@ class TestCase {
   late String expression;
   dynamic result;
   String? error;
-  bool? run;
+  bool run = false;
 
   TestCase.fromMap(Map<String, dynamic> o) {
     comment = o['comment'] as String?;
     expression = o['expression'] as String;
     result = o['result'];
     error = o['error'] as String?;
-    run = o['run'] as bool?;
+    run = o['run'] as bool? ?? false;
   }
 }
 
 class TestSuite {
   dynamic given;
-  late List<TestCase> cases;
+  List<TestCase> cases = [];
   String? comment;
   String? file;
 
@@ -59,10 +59,10 @@ List<String> files = [
 
 List<TestSuite> loadTestCases(String base) {
   var tss = <TestSuite>[];
-  files.forEach((file) {
+  for (var file in files) {
     final j = json.decode(File(base + '/' + file).readAsStringSync()) as List;
     tss.addAll(j.map((ts) => TestSuite.fromMap(ts)..file = file));
-  });
+  }
   return tss;
 }
 
@@ -70,8 +70,8 @@ void runTestSuite(TestSuite ts) {
   var runMode = false;
   // runMode = true;
   // print('File : ${ts.file}');
-  ts.cases.forEach((testcase) {
-    if (runMode && testcase?.run != true) {
+  for (var testcase in ts.cases) {
+    if (runMode && testcase.run != true) {
       return;
     }
     // print('expression : ${testcase.expression}');
@@ -102,15 +102,19 @@ void runTestSuite(TestSuite ts) {
       expect(result, testcase.result,
           reason: 'expression : ${testcase.expression}');
     }
-  });
+  }
 }
 
 void main() {
   var tss = <TestSuite>[];
-  if (File('./compliance').existsSync()) {
+  var complianceDir = Directory('./compliance');
+  var compliancePDir = Directory('../compliance');
+  if (complianceDir.existsSync()) {
     tss = loadTestCases('.');
-  } else if (File('../compliance').existsSync()) {
+  } else if (compliancePDir.existsSync()) {
     tss = loadTestCases('..');
+  } else {
+    throw Exception('No compliance folder found');
   }
   test('compliance suite', () {
     tss.forEach(runTestSuite);

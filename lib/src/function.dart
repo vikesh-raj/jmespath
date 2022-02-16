@@ -2,9 +2,9 @@ import 'parser.dart';
 import 'util.dart';
 import 'errors.dart';
 
-typedef jpFunction = dynamic Function(List);
+typedef JpFunction = dynamic Function(List);
 
-enum jpType {
+enum JpType {
   jpUnknown,
   jpNumber,
   jpString,
@@ -16,53 +16,53 @@ enum jpType {
   jpAny,
 }
 
-class argSpec {
-  List<jpType> types;
+class ArgSpec {
+  List<JpType> types;
   bool variadic;
 
-  argSpec(this.types, {this.variadic = false});
+  ArgSpec(this.types, {this.variadic = false});
 
   void typeCheck(dynamic arg) {
     for (var t in types) {
       switch (t) {
-        case jpType.jpNumber:
+        case JpType.jpNumber:
           if (arg is num) {
             return;
           }
           break;
-        case jpType.jpString:
+        case JpType.jpString:
           if (arg is String) {
             return;
           }
           break;
-        case jpType.jpArray:
+        case JpType.jpArray:
           if (arg is List) {
             return;
           }
           break;
-        case jpType.jpObject:
+        case JpType.jpObject:
           if (arg is Map<String, dynamic>) {
             return;
           }
           break;
-        case jpType.jpArrayNumber:
+        case JpType.jpArrayNumber:
           if (arg is List && isArrayNum(arg)) {
             return;
           }
           break;
-        case jpType.jpArrayString:
+        case JpType.jpArrayString:
           if (arg is List && isArrayString(arg)) {
             return;
           }
           break;
-        case jpType.jpAny:
+        case JpType.jpAny:
           return;
-        case jpType.jpExpref:
-          if (arg is expRef) {
+        case JpType.jpExpref:
+          if (arg is ExpRef) {
             return;
           }
           break;
-        case jpType.jpUnknown:
+        case JpType.jpUnknown:
           break;
       }
     }
@@ -70,13 +70,13 @@ class argSpec {
   }
 }
 
-class functionEntry {
+class FunctionEntry {
   String name;
-  List<argSpec> arguments;
-  jpFunction handler;
+  List<ArgSpec> arguments;
+  JpFunction handler;
   bool hasExpRef;
 
-  functionEntry(this.name, this.arguments, this.handler,
+  FunctionEntry(this.name, this.arguments, this.handler,
       {this.hasExpRef = false});
 
   List resolveArgs(List args) {
@@ -101,12 +101,12 @@ class functionEntry {
   }
 }
 
-class functionCaller {
-  Map<String, functionEntry> functionTable;
-  functionCaller(this.functionTable);
+class FunctionCaller {
+  Map<String, FunctionEntry> functionTable;
+  FunctionCaller(this.functionTable);
 }
 
-class expRef {
-  astNode ref;
-  expRef(this.ref);
+class ExpRef {
+  AstNode ref;
+  ExpRef(this.ref);
 }

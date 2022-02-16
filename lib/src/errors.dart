@@ -17,7 +17,7 @@ class SyntaxException extends JmesException {
       : super(message);
   @override
   String toString() =>
-      'SyntaxException: Error while paring $expression at $offset : $message';
+      'SyntaxException: Error while parsing $expression at $offset : $message';
 }
 
 /// UnknownFunctionException is thrown when an unknown function is called.

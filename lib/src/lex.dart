@@ -37,21 +37,21 @@ enum tt {
   tEOF,
 }
 
-class token {
+class Token {
   final tt tokType;
   final String value;
   final int position;
   final int length;
 
-  token(this.tokType, this.value, this.position) : length = value.length;
+  Token(this.tokType, this.value, this.position) : length = value.length;
 
   @override
-  bool operator ==(o) =>
-      o is token &&
-      o.tokType == tokType &&
-      o.value == value &&
-      o.position == position &&
-      o.length == length;
+  bool operator ==(other) =>
+      other is Token &&
+      other.tokType == tokType &&
+      other.value == value &&
+      other.position == position &&
+      other.length == length;
 
   @override
   int get hashCode =>
@@ -61,7 +61,7 @@ class token {
   String toString() => '$tokType : $value, pos : $position, len $length';
 }
 
-List<token> tokenize(String expression) {
+List<Token> tokenize(String expression) {
   return _Lexer(expression).tokenize();
 }
 
@@ -108,16 +108,16 @@ class _Lexer {
 
   _Lexer(this.expression);
 
-  List<token> tokenize() {
+  List<Token> tokenize() {
     iterator = expression.runes.iterator;
 
-    var tokens = <token>[];
+    var tokens = <Token>[];
     while (next()) {
       var ch = current;
       if (_isAlpha(ch)) {
         tokens.add(consumeUnquotedIdentifier());
       } else if (_basicTokens.containsKey(ch)) {
-        tokens.add(token(_basicTokens[ch]!, String.fromCharCode(ch), position));
+        tokens.add(Token(_basicTokens[ch]!, String.fromCharCode(ch), position));
       } else if (_isNum(ch)) {
         tokens.add(consumeNumber());
       } else if (ch == $lbracket) {
@@ -149,35 +149,35 @@ class _Lexer {
             message: 'Unknown char: ' + String.fromCharCode(ch));
       }
     }
-    var eofToken = token(tt.tEOF, '', length);
+    var eofToken = Token(tt.tEOF, '', length);
     tokens.add(eofToken);
     return tokens;
   }
 
-  token consumeUnquotedIdentifier() {
+  Token consumeUnquotedIdentifier() {
     return consumeTill(tt.tUnquotedIdentifier, _isAlphaNum);
   }
 
-  token consumeNumber() {
+  Token consumeNumber() {
     return consumeTill(tt.tNumber, _isNum);
   }
 
-  token consumeLBracket() {
+  Token consumeLBracket() {
     var pos = position;
     var ok = next();
     if (ok) {
       switch (current) {
         case $question:
-          return token(tt.tFilter, '[?', pos);
+          return Token(tt.tFilter, '[?', pos);
         case $rbracket:
-          return token(tt.tFlatten, '[]', pos);
+          return Token(tt.tFlatten, '[]', pos);
       }
     }
     back();
-    return token(tt.tLbracket, '[', pos);
+    return Token(tt.tLbracket, '[', pos);
   }
 
-  token consumeRawStringLiteral() {
+  Token consumeRawStringLiteral() {
     var pos = position + 1;
     var codes = <int>[];
     var found = false;
@@ -201,17 +201,17 @@ class _Lexer {
           message: 'Unclosed delimiter: \'');
     }
     var str = String.fromCharCodes(codes);
-    return token(tt.tStringLiteral, str, pos);
+    return Token(tt.tStringLiteral, str, pos);
   }
 
-  token consumeQuotedIdentifier() {
+  Token consumeQuotedIdentifier() {
     var pos = position;
     var str = consumeUntil($quote);
-    var s;
+    dynamic s;
     try {
       s = json.decode('"$str"');
       if (s is String) {
-        return token(tt.tQuotedIdentifier, s, pos);
+        return Token(tt.tQuotedIdentifier, s, pos);
       }
     } on FormatException {
       throw SyntaxException(
@@ -225,14 +225,14 @@ class _Lexer {
         message: 'Unable to parse to quoted identifier : $s');
   }
 
-  token consumeLiteral() {
+  Token consumeLiteral() {
     var pos = position + 1;
     var str = consumeUntil($backquote);
     str = str.replaceAll('\\`', '`');
-    return token(tt.tJSONLiteral, str, pos);
+    return Token(tt.tJSONLiteral, str, pos);
   }
 
-  token consumeTill(tt tokType, bool Function(int) match) {
+  Token consumeTill(tt tokType, bool Function(int) match) {
     var codes = [current];
     var pos = position;
     while (next()) {
@@ -242,21 +242,21 @@ class _Lexer {
       }
       codes.add(current);
     }
-    return token(tokType, String.fromCharCodes(codes), pos);
+    return Token(tokType, String.fromCharCodes(codes), pos);
   }
 
-  token matchOrElse(int first, int second, tt matchedType, tt singleCharType) {
+  Token matchOrElse(int first, int second, tt matchedType, tt singleCharType) {
     var pos = position;
     var ok = next();
     if (ok) {
       var next = current;
       if (next == second) {
-        return token(matchedType, String.fromCharCodes([first, second]), pos);
+        return Token(matchedType, String.fromCharCodes([first, second]), pos);
       } else {
         iterator.movePrevious();
       }
     }
-    return token(singleCharType, String.fromCharCode(first), pos);
+    return Token(singleCharType, String.fromCharCode(first), pos);
   }
 
   String consumeUntil(int ch) {

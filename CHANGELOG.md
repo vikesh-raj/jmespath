@@ -1,5 +1,11 @@
 # Change Log for jmespath
 
+## [v2.0.0] Add Null safety
+
+* Add null safety (by @andyduke)
+* Fix lint errors
+* Add coverage
+
 ## [v1.0.4] Fix pendantic issues
 
 * Remove usage of equatable package
